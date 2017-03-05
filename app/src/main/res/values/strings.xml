@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Contact+</string>
+    <string name="nome_utente">Name</string>
+    <string name="psw">Password</string>
+    <string name="phone">Phone</string>
+    <string name="register">Sign In</string>
+    <string name="accedi">Login</string>
+    <string name="searc">Search</string>
+    <string name="add_gruop">Add Group</string>
+    <string name="Contacts">Contacts</string>
+    <string name="search_name">Search a Name</string>
+    <string name="surname">Surname</string>
+    <string name="possesso">If you have an account, LOGIN</string>
+    <string name="email">E-mail</string>
+</resources>

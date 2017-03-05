@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_margin="15dp" android:layout_width="wrap_content" android:layout_height="wrap_content" >
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="15dp"
+        android:layout_margin="10dp">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="@string/nome_utente"
+            android:id="@+id/register_name_ET"
+            android:layout_marginBottom="5dp"
+            android:elevation="10dp"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/surname"
+            android:id="@+id/register_surname_ET"
+            android:layout_below="@id/register_name_ET"
+            android:layout_marginBottom="5dp"
+            android:inputType="text"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/email"
+            android:id="@+id/register_email_ET"
+            android:layout_below="@id/register_surname_ET"
+            android:layout_marginBottom="5dp"
+            android:inputType="textEmailAddress"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:hint="@string/psw"
+            android:id="@+id/register_psw_ET"
+            android:layout_below="@id/register_email_ET"
+            android:layout_marginBottom="5dp"
+            android:elevation="10dp"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:hint="@string/phone"
+            android:id="@+id/register_phone_ET"
+            android:layout_below="@id/register_psw_ET"
+            android:layout_marginBottom="5dp"
+            android:elevation="10dp"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:text="@string/register"
+            android:textColor="#FFFFFF"
+            android:id="@+id/register_register_btn"
+            android:layout_below="@id/register_phone_ET"
+            android:background="@color/colorPrimary"
+            android:layout_marginBottom="10dp"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/material_component_floating_action_button_mini_size"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:text="@string/possesso"
+            android:textColor="@color/colorPrimary"
+            android:id="@+id/register_login_btn"
+            android:layout_below="@id/register_register_btn"
+            />
+
+
+    </RelativeLayout>
+
+
+
+
+</RelativeLayout>
