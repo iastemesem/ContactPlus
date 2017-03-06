@@ -12,4 +12,5 @@
     <string name="surname">Surname</string>
     <string name="possesso">If you have an account, LOGIN</string>
     <string name="email">E-mail</string>
+    <string name="nickname">Nickname</string>
 </resources>

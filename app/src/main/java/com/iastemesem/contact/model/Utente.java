@@ -1,5 +1,6 @@
 package com.iastemesem.contact.model;
 
+import java.util.HashMap;
 import java.util.Objects;
 
 /**
@@ -8,17 +9,35 @@ import java.util.Objects;
 
 public class Utente  {
     private long id;
-    private String nome, cognome;
+    private String nome, cognome, nickname;
     private String psw;
     private String phone;
     private String email;
     private int idGroup;
 
+    private final static String KEY_CHILD_NOME = "nome";
+    private final static String KEY_CHILD_COGNOME = "cognome";
+    private final static String KEY_CHILD_PSW = "psw";
+    private final static String KEY_CHILD_EMAIL = "email";
+    private final static String KEY_CHILD_PHONE = "phone";
+    private final static String KEY_NICKNAME = "nickname";
+
+    public static Utente fromHashMap(HashMap<String, Object> map) {
+        return new Utente(
+                (String) map.get(KEY_CHILD_NOME),
+                (String) map.get(KEY_CHILD_COGNOME),
+                (String) map.get(KEY_CHILD_PHONE),
+                (String) map.get(KEY_CHILD_EMAIL),
+                (String) map.get(KEY_CHILD_PSW),
+                (String) map.get(KEY_NICKNAME)
+        );
+    }
+
     public Utente(){
     }
 
     //Constructor
-    public Utente(String nome, String cognome, String phone, String email, String psw, long id) {
+    public Utente(String nome, String cognome, String phone, String email, String psw, String nickname) {
         //this.id = id; Inizializzato nel DB
         this.id = id;
         this.nome = nome;
@@ -26,10 +45,18 @@ public class Utente  {
         this.phone = phone;
         this.email = email;
         this.cognome = cognome;
+        this.nickname = nickname;
         //SI POTRA' UNIRE AL GRUPPO DOPO ESSERSI REGISTRATO
     }
 
 
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
 
     //Getter and Setter
     public long getId() {return id;}
