@@ -90,12 +90,12 @@ public class ContactActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-
         boolean trovato = false;
         if (v.getId() == R.id.main_search_btn){
+            List<Utente> user = new ArrayList<>();
             for (Utente u: RegisterActivity.users){
-                List<Utente> user = new ArrayList<>();
-                if (u.getNome().equalsIgnoreCase(search.getText().toString())){
+                Log.d("CONTACT", RegisterActivity.users.toString());
+                if (u.getNome().trim().equalsIgnoreCase(search.getText().toString())){
                     user.add(u);
                     adapter.setDataSet(user);
                     trovato = true;

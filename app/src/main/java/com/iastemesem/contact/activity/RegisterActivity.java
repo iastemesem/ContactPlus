@@ -1,5 +1,6 @@
 package com.iastemesem.contact.activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.IntegerRes;
 import android.support.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,9 +32,24 @@ import java.util.Vector;
  */
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
+
+
     EditText username,surname, psw, phone, nickname, email;
     Button signIn, login;
 
+    Databasehandler db = new Databasehandler(this);
+
+
+
+    private SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+
+    private static final String SHARED_LOGGED_IN = "logged in" ;
+    private static final String SHARED_NICKNAME = "nickname" ;
+    private static final String SHARED_PSW = "psw";
+
+    private static final String SHAREDPREFERENCES_NAME = "Reg";
+    private  static  final String KEY_CHILD_UTENTI = "utenti";
     private final static String KEY_CHILD_NOME = "nome";
     private final static String KEY_CHILD_COGNOME = "cognome";
     private final static String KEY_CHILD_PSW = "psw";
@@ -41,36 +58,39 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private final static String KEY_NICKNAME = "nickname";
 
     public static List<Utente> users = new ArrayList<>();
-    public static List<Utente> users2 = new ArrayList<>();
 
     private  static DatabaseReference mDatabase;
 
-    private  static  final String KEY_CHILD_UTENTI = "utenti";
     private  static final String TAG = "user";
     private DatabaseReference mDb;
 
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
 
-    public static void setUsersFirebase () {
+        super.onCreate(savedInstanceState);
 
-        users.clear();
+        sharedPreferences = getSharedPreferences(SHAREDPREFERENCES_NAME, MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
+        Log.d(TAG, users.toString());
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
         mDatabase.child(KEY_CHILD_UTENTI).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
-               // Log.v("User : ", "DATA:" + dataSnapshot.getValue());
+                // Log.v("User : ", "DATA:" + dataSnapshot.getValue());
                 HashMap<String, Object> utentiJson = (HashMap<String, Object>) dataSnapshot.getValue();
-               // Log.d(TAG, utentiJson.toString());
+                // Log.d(TAG, utentiJson.toString());
                 List<String> keys = new ArrayList<>();
                 for (String key : utentiJson.keySet()){
                     keys.add(key);
                 }
-              //  Log.d(TAG, keys.toString());
-                for (int i = 0; i < utentiJson.size(); i++){
-                    HashMap<String, Object> utente = (HashMap<String, Object>) utentiJson.get(keys.get(i));
-                    Utente user = Utente.fromHashMap(utente);
-                    Log.d("UTENTE", user.toString());
-                    users.add(user);
+                //  Log.d(TAG, keys.toString());
+                for (int i = 0; i < keys.size(); i++){
+                    HashMap<String, Object> utenteJson = (HashMap<String, Object>) utentiJson.get(keys.get(i));
+                    Utente utente = Utente.fromHashMap(utenteJson);
+                    Log.d("UTENTE", utente.getNome());
+                    users.add(utente);
                 }
 
             }
@@ -79,14 +99,16 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 Log.d(TAG, "cancellato");
             }
         });
-    }
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
 
-        setUsersFirebase();
+        if (sharedPreferences.contains(SHARED_LOGGED_IN) && sharedPreferences.getBoolean(SHARED_LOGGED_IN, false) == true) {
+            Intent intent = new Intent(this, ContactActivity.class);
+            startActivity(intent);
+            Toast.makeText(this, "Loggin as : "+ sharedPreferences.getString(SHARED_NICKNAME,""), Toast.LENGTH_LONG).show();
+            finish();
+        }
 
-        super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_register);
 
         username = (EditText) findViewById(R.id.register_name_ET);
@@ -96,6 +118,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         nickname = (EditText) findViewById(R.id.register_nickname_ET);
         email = (EditText) findViewById(R.id.register_email_ET);
 
+
         signIn = (Button) findViewById(R.id.register_register_btn);
         login = (Button) findViewById(R.id.register_login_btn);
 
@@ -104,11 +127,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
-
     @Override
     public void onClick(View v) {
         Intent intent;
-        Utente utente;
         boolean correct = false;
 
         if (v.getId() == R.id.register_register_btn){
@@ -124,6 +145,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     }
                 }
                 if (correct != true){
+
                     mDb = mDatabase.child(KEY_CHILD_UTENTI).push();
                     mDb.child(KEY_CHILD_NOME).setValue(username.getText().toString());
                     mDb.child(KEY_CHILD_COGNOME).setValue(surname.getText().toString());
@@ -131,15 +153,22 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     mDb.child(KEY_CHILD_PHONE).setValue(phone.getText().toString());
                     mDb.child(KEY_CHILD_PSW).setValue(psw.getText().toString());
                     mDb.child(KEY_NICKNAME).setValue(nickname.getText().toString());
-                    setUsersFirebase();
+
+                    editor.putBoolean(SHARED_LOGGED_IN, true );
+                    editor.putString(SHARED_NICKNAME, nickname.getText().toString());
+                    editor.putString(SHARED_PSW, psw.getText().toString());
+                    editor.commit();
+
                     intent = new Intent(RegisterActivity.this, ContactActivity.class);
                     startActivity(intent);
                     finish();
+
                 }
             }else {
                 Toast.makeText(RegisterActivity.this, "Field not complete", Toast.LENGTH_SHORT).show();
             }
         }
+
         if (v.getId() == R.id.register_login_btn){
             intent = new Intent(RegisterActivity.this, ContactActivity.class);
             startActivity(intent);

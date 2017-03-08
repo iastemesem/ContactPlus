@@ -23,7 +23,7 @@ import java.util.List;
  * Created by Gianfranco on 03/03/2017.
  */
 
-public class UtentiAdapter extends RecyclerView.Adapter<UtentiAdapter.UtentiViewHolder> implements View.OnClickListener {
+public class UtentiAdapter extends RecyclerView.Adapter<UtentiAdapter.UtentiViewHolder> {
     List<Utente> dataSet = new ArrayList<>();
 
     public void addUtente (Utente utente){
@@ -55,16 +55,6 @@ public class UtentiAdapter extends RecyclerView.Adapter<UtentiAdapter.UtentiView
     public int getItemCount() {
         return dataSet.size();
     }
-
-    @Override
-    public void onClick(View v) {
-
-    }
-
-    public void setDataSetForFirst(List<Utente> dataSetForFirst) {
-        this.dataSet = dataSetForFirst;
-    }
-
 
     class UtentiViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView nome, surname, nickname;

@@ -8,7 +8,6 @@ import java.util.Objects;
  */
 
 public class Utente  {
-    private long id;
     private String nome, cognome, nickname;
     private String psw;
     private String phone;
@@ -39,7 +38,6 @@ public class Utente  {
     //Constructor
     public Utente(String nome, String cognome, String phone, String email, String psw, String nickname) {
         //this.id = id; Inizializzato nel DB
-        this.id = id;
         this.nome = nome;
         this.psw = psw;
         this.phone = phone;
@@ -49,22 +47,7 @@ public class Utente  {
         //SI POTRA' UNIRE AL GRUPPO DOPO ESSERSI REGISTRATO
     }
 
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
     //Getter and Setter
-    public long getId() {return id;}
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public String getNome() {
         return nome;
     }
@@ -111,5 +94,13 @@ public class Utente  {
 
     public void setIdGroup(int idGroup) {
         this.idGroup = idGroup;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 }
